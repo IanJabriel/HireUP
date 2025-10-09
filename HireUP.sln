@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-Presentation", "1-Presentation", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-Application", "2-Application", "{9FFDCCFE-2FBF-44CF-80D6-6EADD80361A5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-Domain", "3-Domain", "{DCFCA318-08B2-43A2-A8E0-51BC4DC0340D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4-Infra", "4-Infra", "{8C21284D-35CD-499D-97A1-CFAA49B90CC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HireUP.Domain", "HireUP.Domain\HireUP.Domain.csproj", "{BBBF108A-5521-4901-BD8E-2250ED2DDC67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HireUP.Infra", "HireUP.Infra\HireUP.Infra.csproj", "{2CDC51B5-96CC-4A7E-93D4-0DBF592CD8ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HireUP.API", "HireUP.API\HireUP.API.csproj", "{CFE9A065-B32B-4A06-A60E-A21D964333AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HireUP.Application", "HireUP.Application\HireUP.Application.csproj", "{7CFC891A-30CF-444E-8822-0501E0330CB1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BBBF108A-5521-4901-BD8E-2250ED2DDC67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBBF108A-5521-4901-BD8E-2250ED2DDC67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBBF108A-5521-4901-BD8E-2250ED2DDC67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBBF108A-5521-4901-BD8E-2250ED2DDC67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CDC51B5-96CC-4A7E-93D4-0DBF592CD8ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CDC51B5-96CC-4A7E-93D4-0DBF592CD8ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CDC51B5-96CC-4A7E-93D4-0DBF592CD8ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CDC51B5-96CC-4A7E-93D4-0DBF592CD8ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFE9A065-B32B-4A06-A60E-A21D964333AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFE9A065-B32B-4A06-A60E-A21D964333AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFE9A065-B32B-4A06-A60E-A21D964333AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFE9A065-B32B-4A06-A60E-A21D964333AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CFC891A-30CF-444E-8822-0501E0330CB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CFC891A-30CF-444E-8822-0501E0330CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CFC891A-30CF-444E-8822-0501E0330CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CFC891A-30CF-444E-8822-0501E0330CB1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BBBF108A-5521-4901-BD8E-2250ED2DDC67} = {DCFCA318-08B2-43A2-A8E0-51BC4DC0340D}
+		{2CDC51B5-96CC-4A7E-93D4-0DBF592CD8ED} = {8C21284D-35CD-499D-97A1-CFAA49B90CC9}
+		{CFE9A065-B32B-4A06-A60E-A21D964333AA} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{7CFC891A-30CF-444E-8822-0501E0330CB1} = {9FFDCCFE-2FBF-44CF-80D6-6EADD80361A5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E45CE024-33D3-4B10-B8F0-8B9D4412B0C3}
+	EndGlobalSection
+EndGlobal

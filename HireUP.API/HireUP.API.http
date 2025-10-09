@@ -1,0 +1,6 @@
+@HireUP.API_HostAddress = http://localhost:5191
+
+GET {{HireUP.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
