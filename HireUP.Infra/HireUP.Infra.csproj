@@ -18,8 +18,4 @@
     <ProjectReference Include="..\HireUP.Domain\HireUP.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repository\" />
-  </ItemGroup>
-
 </Project>

@@ -1,6 +1,17 @@
+using HireUP.Application.Services;
+using HireUP.Domain.Interfaces;
+using HireUP.Infra.Repositories;
+using HireUP.Infra;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>();
+
+// Repository Registration
+builder.Services.AddScoped<IEmployerRepository, EmployerRepository>();
+
+// Application Service Registration
+builder.Services.AddScoped<EmployerApplicationService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
