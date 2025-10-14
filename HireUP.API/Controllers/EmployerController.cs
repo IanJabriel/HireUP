@@ -15,9 +15,6 @@ namespace HireUP.API.Controllers
             _employerService = employerService;
         }
 
-        /// <summary>
-        /// Registra um novo empregador
-        /// </summary>
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -43,9 +40,6 @@ namespace HireUP.API.Controllers
             }
         }
 
-        /// <summary>
-        /// Realiza login do empregador
-        /// </summary>
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -87,9 +81,6 @@ namespace HireUP.API.Controllers
             }
         }
 
-        /// <summary>
-        /// Obtém todos os empregadores
-        /// </summary>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
@@ -105,9 +96,6 @@ namespace HireUP.API.Controllers
             }
         }
 
-        /// <summary>
-        /// Obtém um empregador por ID
-        /// </summary>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -119,7 +107,7 @@ namespace HireUP.API.Controllers
                 
                 if (employer == null)
                 {
-                    return NotFound(new { error = "Empregador não encontrado" });
+                    return NotFound(new { error = "Empregador nÃ£o encontrado" });
                 }
 
                 return Ok(employer);
@@ -130,9 +118,6 @@ namespace HireUP.API.Controllers
             }
         }
 
-        /// <summary>
-        /// Remove um empregador por ID
-        /// </summary>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -144,7 +129,7 @@ namespace HireUP.API.Controllers
                 
                 if (employer == null)
                 {
-                    return NotFound(new { error = "Empregador não encontrado" });
+                    return NotFound(new { error = "Empregador nÃ£o encontrado" });
                 }
 
                 await _employerService.RemoveEmployer(id);
