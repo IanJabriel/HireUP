@@ -34,6 +34,41 @@ namespace HireUP.Application.Services
             await _employerRepository.AddEmployerAsync(employer);
         }
 
+        public async Task UpdateEmployer(int id, EmployerUpdateDto dto)
+        {
+            var employer = await _employerRepository.GetEmployerByIdAsync(id);
+            
+            if (employer == null)
+            {
+                throw new InvalidOperationException("Empregador não encontrado");
+            }
+
+            if (!string.IsNullOrWhiteSpace(dto.Email))
+            {
+                var existingEmployers = await _employerRepository.GetAllEmployersAsync();
+                if (existingEmployers.Any(e => e.Email.Equals(dto.Email, StringComparison.OrdinalIgnoreCase) && e.Id != id))
+                {
+                    throw new InvalidOperationException("Email já cadastrado por outro empregador");
+                }
+            }
+
+            var hashedPassword = !string.IsNullOrWhiteSpace(dto.Password) 
+                ? BCrypt.Net.BCrypt.HashPassword(dto.Password) 
+                : null;
+
+            employer.Update(
+                name: dto.Name,
+                phone: dto.Phone,
+                email: dto.Email,
+                password: hashedPassword,
+                geoLocationId: dto.GeoLocationId,
+                description: dto.Description,
+                role: dto.Role
+            );
+
+            await _employerRepository.UpdateAsync(employer);
+        }
+
         public async Task<Employer> LoginEmployer(EmployerLoginDto dto)
         {
             var employers = await _employerRepository.GetAllEmployersAsync();
@@ -44,7 +79,6 @@ namespace HireUP.Application.Services
                 throw new UnauthorizedAccessException("Email ou senha inválidos");
             }
 
-            // Verifica a senha usando BCrypt
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(dto.Password, employer.Password);
 
             if (!isPasswordValid)

@@ -12,9 +12,20 @@
         public string Document { get; private set; }
         public string? Description { get; private set; }
         public string? Role { get; private set; }
-            public List<Skill> Skill { get; private set; }
+        public List<Skill> Skill { get; private set; }
         public List<Experience> Experience { get; private set; }
         public DateTime CreatedAt { get; private set; }
+
+        private Employer()
+        {
+            Name = string.Empty;
+            Phone = string.Empty;
+            Email = string.Empty;
+            Password = string.Empty;
+            Document = string.Empty;
+            Skill = new List<Skill>();
+            Experience = new List<Experience>();
+        }
 
         public Employer(
             string name,
@@ -23,11 +34,8 @@
             string password,
             string document,
             string? geoLocationId = null,
-            Attachment? photoId = null,
             string? description = null,
             string? role = null,
-            List<Skill>? skill = null,
-            List<Experience>? experience = null,
             DateTime? createdAt = null
             )
         {
@@ -37,12 +45,42 @@
             Password = password ?? throw new ArgumentNullException(nameof(password));
             Document = document ?? throw new ArgumentNullException(nameof(document));
             GeoLocationId = geoLocationId;
-            PhotoId = photoId;
             Description = description;
             Role = role;
-            Skill = skill ?? new List<Skill>();
-            Experience = experience ?? new List<Experience>();
+            Skill = new List<Skill>();
+            Experience = new List<Experience>();
             CreatedAt = createdAt ?? DateTime.UtcNow;
+        }
+
+        public void Update(
+            string? name = null,
+            string? phone = null,
+            string? email = null,
+            string? password = null,
+            string? geoLocationId = null,
+            string? description = null,
+            string? role = null)
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+                Name = name;
+            
+            if (!string.IsNullOrWhiteSpace(phone))
+                Phone = phone;
+            
+            if (!string.IsNullOrWhiteSpace(email))
+                Email = email;
+            
+            if (!string.IsNullOrWhiteSpace(password))
+                Password = password;
+            
+            if (geoLocationId != null)
+                GeoLocationId = geoLocationId;
+            
+            if (description != null)
+                Description = description;
+            
+            if (role != null)
+                Role = role;
         }
     }
 }

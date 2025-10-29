@@ -1,4 +1,4 @@
-using HireUP.Application.DTOs.Employer;
+Ôªøusing HireUP.Application.DTOs.Enterprise;
 using HireUP.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,19 +6,19 @@ namespace HireUP.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmployerController : ControllerBase
+    public class EnterpriseController : ControllerBase
     {
-        private readonly EmployerApplicationService _employerService;
+        private readonly EnterpriseApplicationService _enterpriseService;
 
-        public EmployerController(EmployerApplicationService employerService)
+        public EnterpriseController(EnterpriseApplicationService enterpriseService)
         {
-            _employerService = employerService;
+            _enterpriseService = enterpriseService;
         }
 
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register([FromBody] EmployerRegisterDto dto)
+        public async Task<IActionResult> Register([FromBody] EnterpriseRegisterDto dto)
         {
             if (!ModelState.IsValid)
             {
@@ -27,8 +27,8 @@ namespace HireUP.API.Controllers
 
             try
             {
-                await _employerService.CreateEmployer(dto);
-                return CreatedAtAction(nameof(Register), new { message = "Empregador registrado com sucesso" });
+                await _enterpriseService.CreateEnterprise(dto);
+                return CreatedAtAction(nameof(Register), new { message = "Empresa registrada com sucesso" });
             }
             catch (InvalidOperationException ex)
             {
@@ -36,7 +36,7 @@ namespace HireUP.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = "Erro ao registrar empregador", details = ex.Message });
+                return StatusCode(500, new { error = "Erro ao registrar empresa", details = ex.Message });
             }
         }
 
@@ -44,7 +44,7 @@ namespace HireUP.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Login([FromBody] EmployerLoginDto dto)
+        public async Task<IActionResult> Login([FromBody] EnterpriseLoginDto dto)
         {
             if (!ModelState.IsValid)
             {
@@ -53,18 +53,19 @@ namespace HireUP.API.Controllers
 
             try
             {
-                var employer = await _employerService.LoginEmployer(dto);
+                var enterprise = await _enterpriseService.LoginEnterprise(dto);
 
                 var response = new
                 {
-                    id = employer.Id,
-                    name = employer.Name,
-                    email = employer.Email,
-                    phone = employer.Phone,
-                    document = employer.Document,
-                    role = employer.Role,
-                    description = employer.Description,
-                    createdAt = employer.CreatedAt,
+                    id = enterprise.Id,
+                    name = enterprise.Name,
+                    email = enterprise.Email,
+                    phone = enterprise.Phone,
+                    document = enterprise.Document,
+                    field = enterprise.Field,
+                    description = enterprise.Description,
+                    geoLocationId = enterprise.GeoLocationId,
+                    createdAt = enterprise.CreatedAt,
                     message = "Login realizado com sucesso"
                 };
 
@@ -86,12 +87,12 @@ namespace HireUP.API.Controllers
         {
             try
             {
-                var employers = await _employerService.GetAllEmployers();
-                return Ok(employers);
+                var enterprises = await _enterpriseService.GetAllEnterprises();
+                return Ok(enterprises);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = "Erro ao buscar empregadores", details = ex.Message });
+                return StatusCode(500, new { error = "Erro ao buscar empresas", details = ex.Message });
             }
         }
 
@@ -102,18 +103,18 @@ namespace HireUP.API.Controllers
         {
             try
             {
-                var employer = await _employerService.GetEmployerById(id);
+                var enterprise = await _enterpriseService.GetEnterpriseById(id);
 
-                if (employer == null)
+                if (enterprise == null)
                 {
-                    return NotFound(new { error = "Empregador n„o encontrado" });
+                    return NotFound(new { error = "Empresa n√£o encontrada" });
                 }
 
-                return Ok(employer);
+                return Ok(enterprise);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = "Erro ao buscar empregador", details = ex.Message });
+                return StatusCode(500, new { error = "Erro ao buscar empresa", details = ex.Message });
             }
         }
 
@@ -121,7 +122,7 @@ namespace HireUP.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Update(int id, [FromBody] EmployerUpdateDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] EnterpriseUpdateDto dto)
         {
             if (!ModelState.IsValid)
             {
@@ -130,8 +131,8 @@ namespace HireUP.API.Controllers
 
             try
             {
-                await _employerService.UpdateEmployer(id, dto);
-                return Ok(new { message = "Empregador atualizado com sucesso" });
+                await _enterpriseService.UpdateEnterprise(id, dto);
+                return Ok(new { message = "Empresa atualizada com sucesso" });
             }
             catch (InvalidOperationException ex)
             {
@@ -139,7 +140,7 @@ namespace HireUP.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = "Erro ao atualizar empregador", details = ex.Message });
+                return StatusCode(500, new { error = "Erro ao atualizar empresa", details = ex.Message });
             }
         }
 
@@ -150,19 +151,19 @@ namespace HireUP.API.Controllers
         {
             try
             {
-                var employer = await _employerService.GetEmployerById(id);
+                var enterprise = await _enterpriseService.GetEnterpriseById(id);
 
-                if (employer == null)
+                if (enterprise == null)
                 {
-                    return NotFound(new { error = "Empregador n„o encontrado" });
+                    return NotFound(new { error = "Empresa n√£o encontrada" });
                 }
 
-                await _employerService.RemoveEmployer(id);
+                await _enterpriseService.RemoveEnterprise(id);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = "Erro ao remover empregador", details = ex.Message });
+                return StatusCode(500, new { error = "Erro ao remover empresa", details = ex.Message });
             }
         }
     }

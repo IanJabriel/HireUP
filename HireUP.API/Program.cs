@@ -9,9 +9,19 @@ builder.Services.AddDbContext<ApplicationDbContext>();
 
 // Repository Registration
 builder.Services.AddScoped<IEmployerRepository, EmployerRepository>();
+builder.Services.AddScoped<IEnterpriseRepository, EnterpriseRepository>();
+builder.Services.AddScoped<IProblemRepository, ProblemRepository>();
+builder.Services.AddScoped<ISolutionRepository, SolutionRepository>();
+builder.Services.AddScoped<IHackatonRepository, HackatonRepository>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
 
 // Application Service Registration
 builder.Services.AddScoped<EmployerApplicationService>();
+builder.Services.AddScoped<EnterpriseApplicationService>();
+builder.Services.AddScoped<ProblemApplicationService>();
+builder.Services.AddScoped<SolutionApplicationService>();
+builder.Services.AddScoped<HackatonApplicationService>();
+builder.Services.AddScoped<EventApplicationService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

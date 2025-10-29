@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;  
-using HireUP.Domain.Entities;
+﻿using HireUP.Domain.Entities;
 using HireUP.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace HireUP.Infra.Repositories
 {
@@ -26,6 +26,12 @@ namespace HireUP.Infra.Repositories
         public async Task AddEmployerAsync(Employer employer)
         {
             await _context.Employers.AddAsync(employer);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Employer employer)
+        {
+            _context.Employers.Update(employer);
             await _context.SaveChangesAsync();
         }
 

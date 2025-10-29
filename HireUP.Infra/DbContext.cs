@@ -18,15 +18,13 @@ namespace HireUP.Infra
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // DATABASE CONNECTION STRING
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=HireUP");
         }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Attachment configuration
             modelBuilder.Entity<Attachment>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -34,7 +32,6 @@ namespace HireUP.Infra
                 entity.Property(e => e.Url).IsRequired().HasMaxLength(500);
             });
 
-            // Culture configuration
             modelBuilder.Entity<Culture>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -43,14 +40,12 @@ namespace HireUP.Infra
                 entity.Property(e => e.Icon).IsRequired();
             });
 
-            // Skill configuration
             modelBuilder.Entity<Skill>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
             });
 
-            // Experience configuration
             modelBuilder.Entity<Experience>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -63,23 +58,24 @@ namespace HireUP.Infra
 
             // Employer configuration
             modelBuilder.Entity<Employer>(entity =>
-            {
+            {   
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
                 entity.Property(e => e.Phone).IsRequired().HasMaxLength(20);
                 entity.Property(e => e.Email).IsRequired().HasMaxLength(200);
                 entity.Property(e => e.Password).IsRequired().HasMaxLength(500);
                 entity.Property(e => e.Document).IsRequired().HasMaxLength(50);
-                entity.Property(e => e.Description).IsRequired();
-                entity.Property(e => e.Role).IsRequired().HasMaxLength(100);
-                entity.Property(e => e.GeoLocationId).IsRequired();
+                entity.Property(e => e.Description).HasMaxLength(1000);
+                entity.Property(e => e.Role).HasMaxLength(100);
+                entity.Property(e => e.GeoLocationId).HasMaxLength(100);
                 entity.Property(e => e.CreatedAt).IsRequired();
 
                 // 1:1 relationship with Attachment (PhotoId)
                 entity.HasOne(e => e.PhotoId)
                     .WithMany()
-                    .HasForeignKey("PhotoId")
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .HasForeignKey("AttachmentId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired(false);
 
                 // N:N relationship with Skill
                 entity.HasMany(e => e.Skill)
@@ -102,31 +98,32 @@ namespace HireUP.Infra
             modelBuilder.Entity<Enterprise>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.Phone).IsRequired().HasMaxLength(20);
                 entity.Property(e => e.Email).IsRequired().HasMaxLength(200);
-                entity.Property(e => e.Password).IsRequired().HasMaxLength(500);
+                entity.Property(e => e.Password).IsRequired().HasMaxLength(200);
                 entity.Property(e => e.Document).IsRequired().HasMaxLength(50);
-                entity.Property(e => e.Description).IsRequired();
-                entity.Property(e => e.Field).IsRequired().HasMaxLength(100);
-                entity.Property(e => e.GeoLocationId).IsRequired();
+                entity.Property(e => e.Description).HasMaxLength(1000); 
+                entity.Property(e => e.Field).HasMaxLength(50); 
+                entity.Property(e => e.GeoLocationId).HasMaxLength(100);
                 entity.Property(e => e.CreatedAt).IsRequired();
 
                 // 1:1 relationship with Attachment (PhotoId)
                 entity.HasOne(e => e.PhotoId)
                     .WithMany()
-                    .HasForeignKey("PhotoId")
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .HasForeignKey("AttachmentId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired(false); 
             });
 
             // Event configuration
             modelBuilder.Entity<Event>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Title).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.Description).IsRequired();
-                entity.Property(e => e.Private).IsRequired();
-                entity.Property(e => e.CodeAcess).HasMaxLength(50);
+                entity.Property(e => e.IsPrivate).IsRequired();
+                entity.Property(e => e.CodeAcess).HasMaxLength(30);
                 entity.Property(e => e.CreatedAt).IsRequired();
                 entity.Property(e => e.StartDate).IsRequired();
                 entity.Property(e => e.EndDate).IsRequired();
@@ -152,9 +149,9 @@ namespace HireUP.Infra
             modelBuilder.Entity<Hackaton>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Title).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.Description).IsRequired();
-                entity.Property(e => e.Private).IsRequired();
+                entity.Property(e => e.IsPrivate).IsRequired();
                 entity.Property(e => e.CodeAcess).HasMaxLength(50);
                 entity.Property(e => e.CreatedAt).IsRequired();
                 entity.Property(e => e.StartDate).IsRequired();
@@ -181,9 +178,9 @@ namespace HireUP.Infra
             modelBuilder.Entity<Problem>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Title).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.Description).IsRequired();
-                entity.Property(e => e.CreatedAt).IsRequired();
+                entity.Property(e => e.CreatedAt);
 
                 // N:1 relationship with Enterprise
                 entity.HasOne<Enterprise>()
@@ -196,8 +193,8 @@ namespace HireUP.Infra
             modelBuilder.Entity<Solution>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
-                entity.Property(e => e.CreatedAt).IsRequired();
+                entity.Property(e => e.Title).IsRequired().HasMaxLength(50);
+                entity.Property(e => e.CreatedAt);
 
                 // N:1 relationship with Problem
                 entity.HasOne<Problem>()

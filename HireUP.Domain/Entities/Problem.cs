@@ -8,6 +8,12 @@
         public string Description { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
+        private Problem()
+        {
+            Title = string.Empty;
+            Description = string.Empty;
+        }
+
         public Problem(
             int enterpriseId,
             string title,
@@ -19,6 +25,15 @@
             Title = title;
             Description = description;
             CreatedAt = createdAt ?? DateTime.UtcNow;
+        }
+
+        public void Update(string? title = null, string? description = null)
+        {
+            if (!string.IsNullOrWhiteSpace(title))
+                Title = title;
+            
+            if (!string.IsNullOrWhiteSpace(description))
+                Description = description;
         }
     }
 }
