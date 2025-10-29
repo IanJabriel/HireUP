@@ -106,7 +106,7 @@ namespace HireUP.API.Controllers
 
                 if (employer == null)
                 {
-                    return NotFound(new { error = "Empregador n„o encontrado" });
+                    return NotFound(new { error = "Empregador n√£o encontrado" });
                 }
 
                 return Ok(employer);
@@ -154,7 +154,7 @@ namespace HireUP.API.Controllers
 
                 if (employer == null)
                 {
-                    return NotFound(new { error = "Empregador n„o encontrado" });
+                    return NotFound(new { error = "Empregador n√£o encontrado" });
                 }
 
                 await _employerService.RemoveEmployer(id);
