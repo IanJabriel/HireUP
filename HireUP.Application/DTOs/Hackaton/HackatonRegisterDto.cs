@@ -4,6 +4,9 @@ namespace HireUP.Application.DTOs.Hackaton
 {
     public class HackatonRegisterDto
     {
+        [Required(ErrorMessage = "ID da empresa é obrigatório")]
+        public int EnterpriseId { get; set; }
+
         [Required(ErrorMessage = "Título é obrigatório")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Título deve ter entre 3 e 50 caracteres")]
         public required string Title { get; set; }

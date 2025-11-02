@@ -117,6 +117,27 @@ namespace HireUP.API.Controllers
             }
         }
 
+        [HttpGet("{id}/registrations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetRegistrationsById(int id)
+        {
+            try
+            {
+                var registrations = await _employerService.SeeWhereYouRegistered(id);
+                if (registrations == null)
+                {
+                    return NotFound(new { error = "Empregador não encontrado" });
+                }
+                return Ok(registrations);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = "Erro ao buscar inscrições do empregador", details = ex.Message });
+            }
+        }
+
+
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -1,3 +1,4 @@
+using HireUP.Application.DTOs;
 using HireUP.Application.DTOs.Hackaton;
 using HireUP.Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -74,6 +75,53 @@ namespace HireUP.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { error = "Erro ao buscar hackaton", details = ex.Message });
+            }
+        }
+
+        [HttpPost("{hackatonId}/register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> RegisterEmployer(int hackatonId, [FromBody] RegisterEmployerDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _hackatonService.RegisterEmployerInHackaton(hackatonId, dto.EmployerId);
+                return Ok(new { message = "Inscrição realizada com sucesso" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = "Erro ao realizar inscrição", details = ex.Message });
+            }
+        }
+
+        [HttpDelete("{hackatonId}/unregister/{employerId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UnregisterEmployer(int hackatonId, int employerId)
+        {
+            try
+            {
+                await _hackatonService.UnregisterEmployerFromHackaton(hackatonId, employerId);
+                return Ok(new { message = "Inscrição cancelada com sucesso" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = "Erro ao cancelar inscrição", details = ex.Message });
             }
         }
 
