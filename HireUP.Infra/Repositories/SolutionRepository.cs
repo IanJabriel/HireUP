@@ -60,5 +60,6 @@ namespace HireUP.Infra.Repositories
             _context.Solutions.Remove(solution);
             await _context.SaveChangesAsync();
         }
+
     }
 }

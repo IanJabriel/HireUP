@@ -7,10 +7,16 @@ namespace HireUP.Application.Services
     public class EnterpriseApplicationService
     {
         private readonly IEnterpriseRepository _enterpriseRepository;
+        private readonly IEventRepository _eventRepository;
+        private readonly IHackatonRepository _hackatonRepository;
+        private readonly IProblemRepository _problemRepository;
 
-        public EnterpriseApplicationService(IEnterpriseRepository enterpriseRepository)
+        public EnterpriseApplicationService(IEnterpriseRepository enterpriseRepository, IEventRepository eventRepository, IHackatonRepository hackatonRepository, IProblemRepository problemRepository)
         {
             _enterpriseRepository = enterpriseRepository;
+            _eventRepository = eventRepository;
+            _hackatonRepository = hackatonRepository;
+            _problemRepository = problemRepository;
         }
 
         public async Task CreateEnterprise(EnterpriseRegisterDto dto)
@@ -116,6 +122,34 @@ namespace HireUP.Application.Services
             }
 
             await _enterpriseRepository.RemoveAsync(enterprise);
+        }
+
+        public async Task<ResponseGetOnlyOwnPost> GetOnlyOwnPost(int id) 
+        {
+            var enterprise = await _enterpriseRepository.GetEnterpriseByIdAsync(id);
+
+            if (enterprise == null)
+            {
+                throw new InvalidOperationException("Empresa não encontrada");
+            }
+
+            var events = await _eventRepository.GetEventByEnterpriseId(id);
+            var hackaton = await _hackatonRepository.GetHackatonByEnterpriseId(id);
+            var problem = await _problemRepository.GetProblemsByEnterpriseIdAsync(id);
+
+            return new ResponseGetOnlyOwnPost
+            {
+                Event = events,
+                Hackaton = hackaton,
+                Problem = problem
+            };
+        }
+
+        public class ResponseGetOnlyOwnPost
+        {
+            public List<Event> Event { get; set; } = [];
+            public List<Hackaton> Hackaton { get; set; } = [];
+            public IEnumerable<Problem> Problem { get; set; } = [];
         }
     }
 }

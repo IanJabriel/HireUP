@@ -5,6 +5,7 @@ namespace HireUP.Domain.Entities
     public class Event
     {
         public int Id { get; private set; }
+        public int EnterpriseId { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
         public List<Attachment> Attachments { get; private set; }

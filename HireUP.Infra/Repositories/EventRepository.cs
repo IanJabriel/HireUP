@@ -46,5 +46,21 @@ namespace HireUP.Infra.Repositories
             _context.Events.Remove(eventEntity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<Event>> GetEventByEmployerId(int employerId)
+        {
+            return await _context.Events
+                .Include(e => e.Attachments)
+                .Include(e => e.EmployeesIds)
+                .Where(e => e.EmployeesIds.Any(e => e.Id == employerId)).ToListAsync();
+        }
+
+        public async Task<List<Event>> GetEventByEnterpriseId(int enterpriseId)
+        {
+            return await _context.Events
+                .Include(e => e.Attachments)
+                .Include(e => e.EmployeesIds)
+                .Where(e => e.EmployeesIds.Equals(enterpriseId)).ToListAsync();
+        }
     }
 }

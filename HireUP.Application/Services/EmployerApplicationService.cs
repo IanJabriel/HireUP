@@ -7,10 +7,16 @@ namespace HireUP.Application.Services
     public class EmployerApplicationService
     {
         private readonly IEmployerRepository _employerRepository;
+        private readonly IEventRepository _eventRepository;
+        private readonly IHackatonRepository _hackatonRepository;
+        private readonly ISolutionRepository _solutionRepository;
 
-        public EmployerApplicationService(IEmployerRepository employerRepository)
+        public EmployerApplicationService(IEmployerRepository employerRepository, IEventRepository eventRepository, IHackatonRepository hackatonRepository, ISolutionRepository solutionRepository)
         {
             _employerRepository = employerRepository;
+            _eventRepository = eventRepository;
+            _hackatonRepository = hackatonRepository;
+            _solutionRepository = solutionRepository;
         }
 
         public async Task CreateEmployer(EmployerRegisterDto dto)
@@ -108,6 +114,34 @@ namespace HireUP.Application.Services
             }
 
             await _employerRepository.RemoveAsync(employer);
+        }
+
+        public async Task<ResponseSeeWhereYouRegistered> SeeWhereYouRegistered(int id)
+        {
+            var employer = await _employerRepository.GetEmployerByIdAsync(id);
+
+            if (employer == null)
+            {
+                throw new InvalidOperationException("Empregador não encontrado");
+            }
+
+            var events = await _eventRepository.GetEventByEmployerId(id);
+            var hackaton = await _hackatonRepository.GetHackatonByEmployerId(id);
+            var solution = await _solutionRepository.GetSolutionsByEmployerIdAsync(id);
+
+            return new ResponseSeeWhereYouRegistered
+            {
+                Event = events, 
+                Hackaton = hackaton, 
+                Solution = solution
+            };
+        }
+
+        public class ResponseSeeWhereYouRegistered
+        {
+            public List<Event> Event { get; set; } = [];
+            public List<Hackaton> Hackaton { get; set; } = [];
+            public IEnumerable<Solution> Solution { get; set; } = [];
         }
     }
 }

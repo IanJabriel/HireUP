@@ -46,5 +46,21 @@ namespace HireUP.Infra.Repositories
             _context.Hackatons.Remove(hackaton);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<Hackaton>> GetHackatonByEmployerId(int employerId)
+        {
+            return await _context.Hackatons
+                .Include(e => e.Attachments)
+                .Include(e => e.EmployeesIds)
+                .Where(e => e.EmployeesIds.Any(e => e.Id == employerId)).ToListAsync();
+        }
+
+        public async Task<List<Hackaton>> GetHackatonByEnterpriseId(int enterpriseId)
+        {
+            return await _context.Hackatons
+                .Include(e => e.Attachments)
+                .Include(e => e.EmployeesIds)
+                .Where(e => e.EnterpriseId.Equals(enterpriseId)).ToListAsync();
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace HireUP.Domain.Interfaces
         Task AddHackatonAsync(Hackaton hackaton);
         Task UpdateAsync(Hackaton hackaton);
         Task RemoveAsync(Hackaton hackaton);
+        Task<List<Hackaton>> GetHackatonByEmployerId(int employerId);
+        Task<List<Hackaton>> GetHackatonByEnterpriseId(int enterpriseId);
     }
 }
