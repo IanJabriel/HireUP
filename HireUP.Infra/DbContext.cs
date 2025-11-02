@@ -128,6 +128,12 @@ namespace HireUP.Infra
                 entity.Property(e => e.StartDate).IsRequired();
                 entity.Property(e => e.EndDate).IsRequired();
 
+                // N:1 relationship with Enterprise
+                entity.HasOne<Enterprise>()
+                    .WithMany()
+                    .HasForeignKey(e => e.EnterpriseId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
                 // N:N relationship with Attachment
                 entity.HasMany(e => e.Attachments)
                     .WithMany()
@@ -156,6 +162,12 @@ namespace HireUP.Infra
                 entity.Property(e => e.CreatedAt).IsRequired();
                 entity.Property(e => e.StartDate).IsRequired();
                 entity.Property(e => e.EndDate).IsRequired();
+
+                // N:1 relationship with Enterprise
+                entity.HasOne<Enterprise>()
+                    .WithMany()
+                    .HasForeignKey(e => e.EnterpriseId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 // N:N relationship with Attachment
                 entity.HasMany(e => e.Attachments)
